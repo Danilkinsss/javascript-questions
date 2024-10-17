@@ -3254,7 +3254,7 @@ You should${'' && `n't`} see a therapist after so much JavaScript lol`
 
 ---
 
-###### 101. Какое значение будет на выходе?
+###### 101. Какое значение будет выведено?
 
 ```javascript
 const one = (false || {} || null)
@@ -3287,7 +3287,7 @@ console.log(one, two, three)
 
 ---
 
-###### 102. Какое значение будет на выходе?
+###### 102. Какое значение будет выведено?
 
 ```javascript
 const myPromise = () => Promise.resolve('I have resolved!')
