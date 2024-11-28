@@ -2917,7 +2917,7 @@ function Person() {
 
 ---
 
-###### 91. Что будет выведено?
+###### 91. Что будет выведено на экран?
 
 ```javascript
 let newList = [1, 2, 3].push(4)
@@ -2944,7 +2944,7 @@ console.log(newList.push(5))
 
 ---
 
-###### 92. Что будет выведено?
+###### 92. Что будет выведено на экран?
 
 ```javascript
 function giveLydiaPizza() {
@@ -2975,7 +2975,7 @@ console.log(giveLydiaChocolate.prototype)
 
 ---
 
-###### 93. Что будет выведено?
+###### 93. Что будет выведено на экран?
 
 ```javascript
 const person = {
@@ -2998,7 +2998,7 @@ for (const [x, y] of Object.entries(person)) {
 
 #### Ответ: A
 
-`Object.entries (person)` возвращает массив вложенных массивов, содержащий ключи и объекты:
+`Object.entries(person)` возвращает массив вложенных массивов, содержащий ключи и объекты:
 
 `[ [ 'name', 'Lydia' ], [ 'age', 21 ] ]`
 
@@ -3012,7 +3012,7 @@ for (const [x, y] of Object.entries(person)) {
 
 ---
 
-###### 94. Что будет выведено?
+###### 94. Что будет выведено на экран?
 
 ```javascript
 function getItems(fruitList, ...args, favoriteFruit) {
@@ -3049,7 +3049,7 @@ getItems(["banana", "apple"], "pear", "orange")
 
 ---
 
-###### 95. Что будет выведено?
+###### 95. Что будет выведено на экран?
 
 ```javascript
 function nums(a, b) {
