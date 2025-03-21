@@ -4304,11 +4304,11 @@ console.log(counterOne.count);
 
 #### Ответ: D
 
-`counterOne` экземпляр класса `Counter`. Counter класс содержит метод `increment` и свойство `count` в конструкторе. Сперва, при помощи `counterOne.increment()`, мы дважды вызываем метод `increment`. `counterOne.count` становится `2`.
+`counterOne` является экземпляром класса `Counter`. Класс `Counter` содержит метод `increment` и свойство `count` в конструкторе. Сперва, при помощи `counterOne.increment()`, мы дважды вызываем метод `increment`. `counterOne.count` становится равен `2`.
 
 <img src="https://i.imgur.com/KxLlTm9.png" width="400">
 
-Затем, мы создаем новую переменную `counterTwo`, и присваиваем ей `counterOne`. Поскольку объекты передаются по ссылке, мы просто создаем новую ссылку на то же место в памяти, на которое указывает `counterOne`. Поскольку переменные ссылаются на то же место в памяти, любые изменения, внесенные в объект, на который ссылается `counterTwo`, также применяются к `counterOne`. Теперь `counterTwo.count` равно `2`.
+Затем, мы создаем новую переменную `counterTwo`, и присваиваем ей значение `counterOne`. Поскольку объекты передаются по ссылке, мы просто создаем новую ссылку на то же место в памяти, на которое указывает `counterOne`. Поскольку переменные ссылаются на то же место в памяти, любые изменения, внесенные в объект, на который ссылается `counterTwo`, также применяются к `counterOne`. Теперь `counterTwo.count` равно `2`.
 
 Мы вызываем `counterTwo.increment()`, что устанавливает значение `count` равное `3`. Затем мы выводим в консоль значение переменной `counterOne`, которое равно `3`.
 
@@ -4322,46 +4322,46 @@ console.log(counterOne.count);
 ###### 133. Что будет выведено на экран?
 
 ```javascript
-const myPromise = Promise.resolve(Promise.resolve('Promise!'));
+const myPromise = Promise.resolve(Promise.resolve('Promise'));
 
 function funcOne() {
-  myPromise.then(res => res).then(res => console.log(res));
-  setTimeout(() => console.log('Timeout!', 0));
-  console.log('Last line!');
+  setTimeout(() => console.log('Timeout 1!'), 0);
+  myPromise.then(res => res).then(res => console.log(`${res} 1!`));
+  console.log('Last line 1!');
 }
 
 async function funcTwo() {
   const res = await myPromise;
-  console.log(await res);
-  setTimeout(() => console.log('Timeout!', 0));
-  console.log('Last line!');
+  console.log(`${res} 2!`)
+  setTimeout(() => console.log('Timeout 2!'), 0);
+  console.log('Last line 2!');
 }
 
 funcOne();
 funcTwo();
 ```
 
-- A: `Promise! Last line! Promise! Last line! Last line! Promise!`
-- B: `Last line! Timeout! Promise! Last line! Timeout! Promise!`
-- C: `Promise! Last line! Last line! Promise! Timeout! Timeout!`
-- D: `Last line! Promise! Promise! Last line! Timeout! Timeout!`
+- A: `Promise 1! Last line 1! Promise 2! Last line 2! Timeout 1! Timeout 2!`
+- B: `Last line 1! Timeout 1! Promise 1! Last line 2! Promise2! Timeout 2!`
+- C: `Last line 1! Promise 2! Last line 2! Promise 1! Timeout 1! Timeout 2!`
+- D: `Timeout 1! Promise 1! Last line 1! Promise 2! Timeout 2! Last line 2!`
 
 <details><summary><b>Ответ</b></summary>
 <p>
 
-#### Ответ: D
+#### Ответ: С
 
-Сначала мы вызываем `funcOne`. В первой строке `funcOne` мы вызываем _асинхронную_ функцию `setTimeout`, из которой обратный вызов отправляется в веб-API. (см. мою статью о цикле событий <a href="https://dev.to/lydiahallie/javascript-visualized-event-loop-3dif">здесь</a>.)
+Сначала мы вызываем `funcOne`. В первой строке `funcOne` мы вызываем _асинхронную_ функцию `setTimeout`, из которой обратный вызов(callback) отправляется в веб-API. (см. мою статью о цикле событий <a href="https://dev.to/lydiahallie/javascript-visualized-event-loop-3dif">здесь</a>.)
 
 Затем мы вызываем обещание `myPromise`, которое является _асинхронной_ операцией.
 
-И обещание, и тайм-аут являются асинхронными операциями, функция продолжает работать, пока она занята выполнением обещания и обработкой обратного вызова `setTimeout`. Это означает, что `Last line 1!` регистрируется первой, так как это не асинхронная операция.
+И обещание(promise), и тайм-аут(timeout) являются асинхронными операциями, функция продолжает работать, пока она занята выполнением обещания и обработкой обратного вызова `setTimeout`. Это означает, что `Last line 1!` регистрируется первой, так как не является асинхронной операцией.
 
 Поскольку стек вызовов еще не пуст, функция `setTimeout` и обещание в `funcOne` еще не могут быть добавлены в стек вызовов.
 
 В `funcTwo` переменная `res` получает `Promise`, потому что `Promise.resolve(Promise.resolve('Promise'))` эквивалентно `Promise.resolve('Promise')`, так как выполнение обещания просто выполняет его значение. `await` в этой строке останавливает выполнение функции до тех пор, пока она не получит разрешение обещания, а затем продолжает работать синхронно до завершения, поэтому `Promise 2!`, а затем `Last line 2!` выводятся, а `setTimeout` отправляется в Web API.
 
-Тогда стек вызовов пуст. Промисы — это _микрозадачи_, поэтому они решаются первыми, когда стек вызовов пуст, поэтому `Promise 1!` выполняется.
+После всего этого стек вызовов пуст. Промисы — это _микрозадачи_, поэтому они решаются первыми, когда стек вызовов пуст, поэтому `Promise 1!` выводится на экран.
 
 Теперь, поскольку `funcTwo` выталкивается из стека вызовов, стек вызовов пуст. Обратные вызовы, ожидающие в очереди (`() => console.log("Timeout 1!")` из `funcOne`, и `() => console.log("Timeout 2!")` из `funcTwo`) добавляются в стек вызовов один за другим. Первый обратный вызов регистрирует `Timeout 1!` и удаляется из стека. Затем второй обратный вызов регистрирует `Timeout 2!` и удаляется из стека.
 
