@@ -3891,7 +3891,7 @@ console.log(member.getLastName?.());
 ```
 
 - A: `undefined` `undefined` `undefined` `undefined`
-- B: `Mara` `undefined` `Lydia Hallie` `undefined`
+- B: `Mara` `undefined` `Lydia Hallie` `ReferenceError`
 - C: `Mara` `null` `Lydia Hallie` `null`
 - D: `null` `ReferenceError` `null` `ReferenceError`
 
@@ -3905,7 +3905,7 @@ console.log(member.getLastName?.());
 `person.pet?.name`: `person` имеет свойство с именем `pet`: `person.pet` не нулевое. Оно имеет свойство с именем `name`, и возвращает `Mara`. 
 `person.pet?.family?.name`: `person` имеет свойство с именем `pet`: `person.pet` не нулевое. `pet` _не_ имеет свойство с именем `family`, `person.pet.family` нулевое. Выражение возвращает `undefined`.
 `person.getFullName?.()`: `person` имеет свойство с именем `getFullName`: `person.getFullName()` не нулевое, и может быть вызвано, возвращает `Lydia Hallie`. 
-`member.getLastName?.()`: `member` не определено(его не существует в данной части кода): возвращается ошибка `ReferenceError`.
+`member.getLastName?.()`: переменная `member` не существует, поэтому возникает ошибка `ReferenceError.
 
 </p>
 </details>
@@ -4452,7 +4452,7 @@ person.name;
 
 #### Ответ: C
 
-C помощью Proxy мы можем добавить собственное поведению объекту, которое мы передаем вторым аргументом. В нашем случае мы передаем объект `handler` который содержит свойства: `set` и `get`. `set` вызывается каждый раз когда мы _устанавливаем_ значения свойств, `get` же вызывается всякий раз когда мы _получаем_ значения свойств.
+C помощью Proxy мы можем добавить собственное поведение объекту, которое мы передаем вторым аргументом. В нашем случае мы передаем объект `handler` который содержит свойства: `set` и `get`. `set` вызывается каждый раз когда мы _устанавливаем_ значения свойств, `get` же вызывается всякий раз когда мы _получаем_ значения свойств.
 
 Первый аргумент — пустой объект `{}`, который является значением `person`. Для него будет добавлено собственное поведение, описанное в объекте `handler`. При добавлении значения для объекта `person` будет вызвано свойство `set`. При запросе к значению `person` вызовется свойство `get`.
 
